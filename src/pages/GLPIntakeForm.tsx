@@ -50,6 +50,8 @@ import {
   evaluateEligibility,
   type EligibilityOutput,
 } from "@/lib/glpEligibility";
+import { persistGlpIntakeQuestionAnswers } from "@/store/glpIntakeQuestionStore";
+import { submitBaskAnswers, submitGlpIntakeToBask } from "@/lib/bask";
 
 /* ───── LocalStorage keys ───── */
 const INTAKE_DATA_KEY = "ys_intake_user_data";
@@ -131,6 +133,7 @@ const initial: IntakeData = {
   sideEffects: "", sideEffectsDetail: "",
   disclaimerAck: false,
 };
+
 
 /* ───── Options ───── */
 const hardConditionOptions = [
@@ -224,6 +227,14 @@ const US_STATES = [
   "New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina",
   "South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming",
 ];
+
+const normalizePhoneDigits = (phone: string): string => (phone || "").replace(/[^\d]/g, "");
+const isValidUsPhone = (phone: string): boolean => {
+  const digits = normalizePhoneDigits(phone);
+  if (digits.length === 10) return true;
+  if (digits.length === 11 && digits.startsWith("1")) return true;
+  return false;
+};
 
 const journeySteps = [
   { step: 1, title: "Take the medical questionnaire", desc: "Start today with our easy online patient intake form", image: glpPhoneConsult },
@@ -389,6 +400,10 @@ export default function GLPIntakeForm() {
     }
   }, [step, data]);
 
+  useEffect(() => {
+    persistGlpIntakeQuestionAnswers(data);
+  }, [data]);
+
   /* Fetch reviews from database */
   useEffect(() => {
     supabase
@@ -526,6 +541,7 @@ export default function GLPIntakeForm() {
       case 9: break; // Medical review, always passable
       case 10:
         if (!data.email) errors.push("email");
+        if (!isValidUsPhone(data.phone)) errors.push("phone");
         if (!data.state) errors.push("state");
         if (!data.consentAccepted) errors.push("consent");
         break;
@@ -558,7 +574,7 @@ export default function GLPIntakeForm() {
     }, 1200);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (): Promise<boolean> => {
     setSubmitting(true);
     try {
       const { data: authData } = await supabase.auth.getUser();
@@ -610,10 +626,59 @@ export default function GLPIntakeForm() {
         Promise.allSettled(notificationPromises).catch((err) => console.error("Notification send error:", err));
       }
 
+      // Bask integration is a hard gate: user cannot proceed unless auth + answers submission succeeds.
+      const normalizedPhone = normalizePhoneDigits(data.phone);
+      if (!data.email || !data.firstName || !data.lastName || !isValidUsPhone(data.phone)) {
+        toast({
+          title: "Invalid contact details",
+          description: "Please enter a valid US phone number with 10 digits.",
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      // Temporary check flow requested: send answers payload before register/auth.
+      // This is expected to fail auth, but it lets us verify the exact outgoing payload.
+      try {
+        await submitBaskAnswers(data, "");
+      } catch (preSubmitErr) {
+        console.log("Pre-auth bask-submit-answers check (expected failure):", preSubmitErr);
+      }
+
+      const baskResult = await submitGlpIntakeToBask({
+        email: data.email,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phoneNumber: normalizedPhone,
+      });
+
+      if (!baskResult.token) {
+        toast({
+          title: "Bask authentication required",
+          description: "We could not complete Bask register/login. Please try again.",
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      const submitResult = await submitBaskAnswers(data, baskResult.token, baskResult.correlationId);
+      if (!submitResult.submitted) {
+        toast({
+          title: "Bask submission failed",
+          description: "We could not submit your intake answers to Bask. Please try again.",
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      toast({ title: "Bask synced", description: "Your intake answers were submitted successfully." });
+
       // Clear saved form on successful submit
       localStorage.removeItem(INTAKE_FORM_KEY);
+      return true;
     } catch {
-      toast({ title: "Error saving", description: "We'll still proceed.", variant: "destructive" });
+      toast({ title: "Submission blocked", description: "We could not complete Bask registration/login and submission.", variant: "destructive" });
+      return false;
     } finally {
       setSubmitting(false);
     }
@@ -646,7 +711,7 @@ export default function GLPIntakeForm() {
     firstName: "first name", lastName: "last name", gender: "gender", heightFeet: "height",
     currentWeight: "current weight", lbsToLose: "weight-loss goal", hardConditions: "health history",
     softConditions: "health details", bloodPressure: "blood pressure", heartRate: "heart rate",
-    paceFeeling: "pace preference", priorMedication: "medication history", priority: "treatment priority",
+    paceFeeling: "pace preference", priorMedication: "medication history", priority: "treatment priority", phone: "phone number",
     personalizations: "personalization choices", email: "email", state: "shipping state", consent: "consent",
   };
   const missingFields = stepErrors.map((error) => requiredFieldCopy[error] || error).join(", ");
@@ -1131,8 +1196,8 @@ export default function GLPIntakeForm() {
                   ))}
                 </div>
               </div>
-              <div>
-                <QuestionTitle>Currently taking prescription medications?</QuestionTitle>
+              <div data-question-id="819132">
+                <QuestionTitle>Current Medications</QuestionTitle>
                 <div className="flex gap-3">
                   {["yes", "no"].map(v => (
                     <button key={v} onClick={() => update("onPrescriptions", v)} aria-label={`On prescriptions: ${v}`}
@@ -1172,7 +1237,7 @@ export default function GLPIntakeForm() {
                   { field: "glp1Allergy" as const, q: "Are you allergic to any GLP-1 medication (Ozempic, Wegovy, Zepbound, Mounjaro, or Saxenda)?" },
                   { field: "disqualifyingMeds" as const, q: "Do you take any medications that interact with GLP-1 therapy (e.g. insulin, sulfonylureas, or other weight-loss drugs)?" },
                 ].map(({ field, q }) => (
-                  <div key={field}>
+                  <div key={field} data-question-id={field === "gastricBypass6mo" ? "819204" : field === "glp1Allergy" ? "819158" : "819142"}>
                     <QuestionTitle>{q} <span className="text-primary">*</span></QuestionTitle>
                     <div className="flex gap-3">
                       {["yes", "no"].map(v => (
@@ -1192,7 +1257,7 @@ export default function GLPIntakeForm() {
                       { field: "pregnant" as const, q: "Are you currently pregnant or planning to become pregnant soon?" },
                       { field: "breastfeeding" as const, q: "Are you currently breastfeeding?" },
                     ].map(({ field, q }) => (
-                      <div key={field}>
+                      <div key={field} data-question-id={field === "pregnant" ? "819144" : "819145"}>
                         <QuestionTitle>{q} <span className="text-primary">*</span></QuestionTitle>
                         <div className="flex gap-3">
                           {["yes", "no"].map(v => (
@@ -1302,7 +1367,7 @@ export default function GLPIntakeForm() {
             {stepErrors.includes("priorMedication") && <FieldError message="Please select an option" />}
 
             {/* ── Q3: Currently on a GLP-1? ── */}
-            <div className="mt-8 pt-6 border-t border-border">
+            <div className="mt-8 pt-6 border-t border-border" data-question-id="819171">
               <QuestionTitle>Are you currently taking — or have you taken in the past 2 months — a GLP-1 medication? <span className="text-primary">*</span></QuestionTitle>
               <div className="flex gap-3">
                 {["yes", "no"].map(v => (
@@ -1318,7 +1383,7 @@ export default function GLPIntakeForm() {
             {/* ── Q5–Q12: GLP-1 detail (only if Yes) ── */}
             {data.glp1Current === "yes" && (
               <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-6 space-y-6">
-                <div>
+                <div data-question-id="819147">
                   <QuestionTitle>Which GLP-1 medication are you currently on? <span className="text-primary">*</span></QuestionTitle>
                   <div className="space-y-3">
                     {[
@@ -1333,7 +1398,7 @@ export default function GLPIntakeForm() {
                 </div>
 
                 {data.glp1Drug === "semaglutide" && (
-                  <div>
+                  <div data-question-id="819167">
                     <QuestionTitle>Current Semaglutide dose <span className="text-primary">*</span></QuestionTitle>
                     <div className="grid grid-cols-3 gap-2">
                       {["0.25 mg", "0.5 mg", "1.0 mg", "1.7 mg", "2.0 mg", "2.5 mg"].map(d => (
@@ -1348,7 +1413,7 @@ export default function GLPIntakeForm() {
                 )}
 
                 {data.glp1Drug === "tirzepatide" && (
-                  <div>
+                  <div data-question-id="819216">
                     <QuestionTitle>Current Tirzepatide dose <span className="text-primary">*</span></QuestionTitle>
                     <div className="grid grid-cols-3 gap-2">
                       {["2.5 mg", "5 mg", "7.5 mg", "10 mg", "12.5 mg", "15 mg"].map(d => (
@@ -1364,7 +1429,7 @@ export default function GLPIntakeForm() {
 
                 {data.glp1Drug && data.glp1Drug !== "none" && (
                   <>
-                    <div>
+                    <div data-question-id="819152">
                       <QuestionTitle>For your next prescription, would you like to: <span className="text-primary">*</span></QuestionTitle>
                       <div className="space-y-3">
                         {[
@@ -1378,7 +1443,7 @@ export default function GLPIntakeForm() {
                       {stepErrors.includes("doseDirection") && <FieldError message="Please select an option" />}
                     </div>
 
-                    <div>
+                    <div data-question-id="819218">
                       <QuestionTitle>Do you currently have your medication on hand? <span className="text-primary">*</span></QuestionTitle>
                       <div className="flex gap-3">
                         {["yes", "no"].map(v => (
@@ -1391,7 +1456,7 @@ export default function GLPIntakeForm() {
                     </div>
 
                     {data.medAvailable === "yes" && (
-                      <div>
+                      <div data-question-id="819149">
                         <QuestionTitle>Upload a photo of the medication label (optional)</QuestionTitle>
                         <p className="text-sm text-muted-foreground mb-2">Helps our clinician verify your current dose.</p>
                         <label className="flex items-center justify-center gap-2 px-5 py-4 rounded-2xl border-2 border-dashed border-border hover:border-primary/40 cursor-pointer transition-all min-h-[56px]">
@@ -1414,7 +1479,7 @@ export default function GLPIntakeForm() {
                   </>
                 )}
 
-                <div>
+                <div data-question-id="819150">
                   <QuestionTitle>Are you experiencing any side effects from your current GLP-1? <span className="text-primary">*</span></QuestionTitle>
                   <div className="flex gap-3">
                     {["yes", "no"].map(v => (
@@ -1428,7 +1493,7 @@ export default function GLPIntakeForm() {
                 </div>
 
                 {data.sideEffects === "yes" && (
-                  <div>
+                  <div data-question-id="819151">
                     <QuestionTitle>Please describe your side effects <span className="text-primary">*</span></QuestionTitle>
                     <textarea
                       value={data.sideEffectsDetail}
@@ -1445,7 +1510,7 @@ export default function GLPIntakeForm() {
 
             {/* ── Q13: Current meds list (only if onPrescriptions = yes) ── */}
             {data.onPrescriptions === "yes" && (
-              <div className="mt-8 pt-6 border-t border-border">
+              <div className="mt-8 pt-6 border-t border-border" data-question-id="819132">
                 <QuestionTitle>Please list your current prescription medications <span className="text-primary">*</span></QuestionTitle>
                 <p className="text-sm text-muted-foreground mb-2">Include drug name and dose for each.</p>
                 <textarea
@@ -1460,7 +1525,7 @@ export default function GLPIntakeForm() {
             )}
 
             {/* ── Q14/Q15: Allergies ── */}
-            <div className="mt-8 pt-6 border-t border-border">
+            <div className="mt-8 pt-6 border-t border-border" data-question-id="819136">
               <QuestionTitle>Do you have any medication or food allergies? <span className="text-primary">*</span></QuestionTitle>
               <div className="flex gap-3">
                 {["yes", "no"].map(v => (
@@ -1473,7 +1538,7 @@ export default function GLPIntakeForm() {
               {stepErrors.includes("allergies") && <FieldError message="Please select an answer" />}
 
               {data.allergies === "yes" && (
-                <div className="mt-4">
+                <div className="mt-4" data-question-id="819157">
                   <p className="text-sm font-semibold text-foreground mb-2">Please list your allergies and reactions:</p>
                   <textarea
                     value={data.allergiesDetail}
@@ -1488,7 +1553,7 @@ export default function GLPIntakeForm() {
             </div>
 
             {/* ── Q18: "What you should know" disclaimer ── */}
-            <div className="mt-8 rounded-2xl bg-[hsl(38,45%,93%)] dark:bg-[hsl(38,30%,15%)] border border-[hsl(38,40%,80%)] p-5">
+            <div className="mt-8 rounded-2xl bg-[hsl(38,45%,93%)] dark:bg-[hsl(38,30%,15%)] border border-[hsl(38,40%,80%)] p-5" data-question-id="819138">
               <p className="text-xs uppercase tracking-[0.18em] text-[hsl(38,50%,40%)] font-bold mb-2">What you should know</p>
               <p className="text-sm text-foreground leading-relaxed">
                 GLP-1 medications can cause nausea, vomiting, diarrhea, constipation, fatigue, gallbladder issues
@@ -1568,7 +1633,7 @@ export default function GLPIntakeForm() {
                 <span className="text-[hsl(38,50%,50%)] font-semibold italic">within 24 hours</span>
               </p>
             </YellowBanner>
-            <motion.textarea initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+            <motion.textarea initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} data-question-id="819153"
               value={data.additionalInfo} onChange={(e) => update("additionalInfo", e.target.value)}
               className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground text-sm focus:outline-none focus:border-primary resize-none h-32"
               placeholder="Share any additional health information, concerns, or questions here (optional)..."
@@ -1785,10 +1850,11 @@ export default function GLPIntakeForm() {
                 {stepErrors.includes("email") && <FieldError message="Email is required" />}
               </motion.div>
               <motion.div variants={staggerItem}>
-                <QuestionTitle>Phone Number</QuestionTitle>
+                <QuestionTitle>Phone Number <span className="text-primary">*</span></QuestionTitle>
                 <input type="tel" value={data.phone} onChange={(e) => update("phone", e.target.value)} placeholder="(555) 123-4567"
-                  className="w-full px-4 py-3.5 rounded-2xl border-2 border-border bg-background text-foreground text-base font-medium focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all min-h-[48px]"
+                  className={`w-full px-4 py-3.5 rounded-2xl border-2 bg-background text-foreground text-base font-medium focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all min-h-[48px] ${stepErrors.includes("phone") ? "border-destructive" : "border-border"}`}
                   aria-label="Phone number" />
+                {stepErrors.includes("phone") && <FieldError message="Enter a valid US phone number (10 digits)" />}
               </motion.div>
 
               <motion.label variants={staggerItem} className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer ${stepErrors.includes("consent") ? "bg-destructive/5 border-destructive/30" : "bg-secondary/50 border-border/50"}`}>
@@ -2401,7 +2467,11 @@ export default function GLPIntakeForm() {
               </button>
 
               {step === 10 ? (
-                <button onClick={async () => { if (!canNext()) { setShowErrors(true); return; } await handleSubmit(); setStep(11); }}
+                <button onClick={async () => {
+                  if (!canNext()) { setShowErrors(true); return; }
+                  const ok = await handleSubmit();
+                  if (ok) setStep(11);
+                }}
                   disabled={submitting}
                   className={`flex-1 flex flex-col items-center justify-center gap-0.5 px-6 py-3 bg-primary text-primary-foreground rounded-2xl text-sm font-black hover:bg-primary/90 transition-colors min-h-[56px] shadow-lg ${!canNext() && showErrors ? "animate-[shake_0.5s_ease-in-out]" : ""}`}
                   aria-label="Check eligibility">
