@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Core pages -->
+  <url><loc>https://youthandsoul.com/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://youthandsoul.com/about</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/contact</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://youthandsoul.com/learn</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://youthandsoul.com/explore</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/search</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+
+  <!-- Telehealth programs -->
+  <url><loc>https://youthandsoul.com/glp-weightloss</loc><changefreq>weekly</changefreq><priority>0.95</priority></url>
+  <url><loc>https://youthandsoul.com/weightloss</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://youthandsoul.com/weightloss-glp</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://youthandsoul.com/peptides</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://youthandsoul.com/programs/weight-loss</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://youthandsoul.com/programs/menopause-hrt</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://youthandsoul.com/programs/sexual-health</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://youthandsoul.com/programs/skin-hair</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://youthandsoul.com/programs/longevity</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://youthandsoul.com/programs/pain-recovery</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://youthandsoul.com/programs/brain-cognitive</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://youthandsoul.com/programs/gut-health</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://youthandsoul.com/programs/mental-health</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://youthandsoul.com/programs/sleep-health</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+
+  <!-- Health quizzes -->
+  <url><loc>https://youthandsoul.com/health-quiz/weight-loss</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/health-quiz/menopause</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/health-quiz/sexual-health</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/health-quiz/skin-hair</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/health-quiz/longevity</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/health-quiz/brain-cognitive</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/health-quiz/sleep-health</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- Goals -->
+  <url><loc>https://youthandsoul.com/goals/longevity-basics</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/goals/weight-loss</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/goals/skin-hair</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/goals/sleep-stress</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/goals/sexual-health</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/goals/brain-cognitive</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+
+  <!-- Products / catalog -->
+  <url><loc>https://youthandsoul.com/products/featured</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://youthandsoul.com/products/top-rated</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+
+  <!-- Partner / business -->
+  <url><loc>https://youthandsoul.com/list-product</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://youthandsoul.com/apply-influencer</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://youthandsoul.com/apply-consultant</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://youthandsoul.com/earn-affiliate</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://youthandsoul.com/insurance-access</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+
+  <!-- Safety / Legal -->
+  <url><loc>https://youthandsoul.com/safety-info/glp1</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/privacy-policy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://youthandsoul.com/terms-of-service</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+
+  <!-- Articles -->
+  <url><loc>https://youthandsoul.com/article/what-nmn-does</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/article/botox-alternatives</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/article/athlete-safe-supplements</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/article/nad-boosters-science</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+
+  <!-- AI answer-engine Learn hubs and spokes -->
+  <url><loc>https://youthandsoul.com/learn/berberine-vs-metformin-for-weight-loss</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/best-face-serum-for-hyperpigmentation-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/best-foods-to-eat-on-glp1-medications</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/best-leaky-gut-repair-supplements-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/best-magnesium-for-deep-sleep-recovery</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/best-nootropic-stack-for-memory-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/best-peptides-for-skin-tightening-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/best-physical-therapy-apps-for-injury-recovery</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/best-resistance-training-for-longevity-and-muscle</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/best-supplements-for-cortisol-management-stress</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/best-supplements-for-erectile-dysfunction-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/best-telomere-testing-kits-accuracy-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/best-wearable-sleep-tracker-accuracy-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/brain-cognitive</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://youthandsoul.com/learn/cbd-vs-thc-for-chronic-pain-telehealth</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/digital-detox-for-mental-health-benefits</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/gut-health</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://youthandsoul.com/learn/how-to-fix-circadian-rhythm-biohacking</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/how-to-improve-microbiome-diversity-fast</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/how-to-prevent-cognitive-decline-online-doctors</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/how-to-qualify-for-glp1-meds-telehealth</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/hrt-patches-vs-pills-for-menopause</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/is-metformin-safe-for-longevity-off-label</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/ketamine-therapy-online-safety-legality</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/low-libido-causes-men-over-40</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/menopause-brain-fog-best-hrt-options</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/mental-health</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://youthandsoul.com/learn/natural-sleep-aids-without-melatonin</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/omega3-dosage-for-brain-health-recommendations</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/online-therapy-vs-telehealth-psychiatry-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/oral-minoxidil-vs-topical-for-hair-regrowth</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/personalized-gut-health-testing-worth-it</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/probiotics-vs-postbiotics-selection-guide</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/red-light-therapy-for-joint-pain-at-home</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/senolytic-activator-benefits-longevity</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/sildenafil-vs-tadalafil-cost-comparison-2026</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/sleep-health</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://youthandsoul.com/learn/testosterone-replacement-therapy-for-women-guide</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/tirzepatide-vs-semaglutide-weight-loss-efficiency</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://youthandsoul.com/learn/top-rated-brain-health-supplements-telehealth</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+</urlset>

@@ -1,0 +1,1 @@
+ALTER TABLE public.seller_products ADD COLUMN IF NOT EXISTS discount_code text DEFAULT NULL;

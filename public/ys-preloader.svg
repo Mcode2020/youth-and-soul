@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <style>
+      .y, .s { font-family: 'Nunito', system-ui, sans-serif; font-weight: 900; font-size: 48px; }
+      .y { fill: hsl(160, 45%, 40%); }
+      .amp { fill: hsl(0, 0%, 70%); font-family: 'Nunito', system-ui, sans-serif; font-weight: 700; font-size: 32px; }
+      .s { fill: hsl(160, 45%, 40%); }
+      @keyframes pulse { 0%,100% { opacity: 0.55; } 50% { opacity: 1; } }
+      svg { animation: pulse 1.6s ease-in-out infinite; }
+    </style>
+  </defs>
+  <text x="60" y="68" text-anchor="middle">
+    <tspan class="y">Y</tspan><tspan class="amp" dy="-4">&amp;</tspan><tspan class="s" dy="4">S</tspan>
+  </text>
+</svg>

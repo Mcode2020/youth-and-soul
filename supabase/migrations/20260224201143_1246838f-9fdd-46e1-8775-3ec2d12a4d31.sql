@@ -1,0 +1,1 @@
+ALTER TABLE seller_products DROP CONSTRAINT IF EXISTS seller_products_seller_id_fkey;

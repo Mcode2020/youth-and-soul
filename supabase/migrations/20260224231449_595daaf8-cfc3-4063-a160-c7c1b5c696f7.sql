@@ -1,0 +1,1 @@
+DELETE FROM seller_products WHERE brand ILIKE '%nourishingapothecary%';

@@ -1,0 +1,60 @@
+# Youth & Soul
+
+> The Longevity & Health Marketplace — doctor-prescribed telehealth programs (GLP-1, HRT, peptides, hair, skin, mental health), curated supplements, and exclusive brand discount codes. No membership or hidden fees; full refund if a clinician doesn't approve your program.
+
+Youth & Soul connects patients in the US with licensed clinicians (via the OpenLoop network) for fast, transparent telehealth care. Patients complete a 5-minute intake, a clinician reviews within 24 hours, and approved medications ship to the door. Pricing is upfront — programs start from a published "From $X/mo" rate with no subscription lock-in.
+
+## Core pages
+
+- [Home](/): Overview of programs, products, and how Youth & Soul works.
+- [About](/about): Mission, founder (Jo Ankier), and the anti-AI-fabrication ethics policy.
+- [Contact](/contact): Customer support and partnership inquiries.
+- [Learn](/learn): Editorial guides on longevity, GLP-1, HRT, peptides, and healthspan.
+- [Explore](/explore): Community, podcasts, weekly rankings, and influencer content.
+- [Search](/search): AI-powered product and program search.
+
+## Telehealth programs
+
+- [GLP-1 Weight Loss](/glp-weightloss): Semaglutide and Tirzepatide programs with 24-hour clinician review.
+- [Weight Loss](/programs/weight-loss): Full weight-loss program hub.
+- [Menopause & HRT](/programs/menopause-hrt): Hormone replacement therapy with female clinicians.
+- [Sexual Health](/programs/sexual-health): ED, libido, and intimate wellness programs.
+- [Skin & Hair](/programs/skin-hair): Dermatology, hair loss, and aesthetic treatments.
+- [Longevity](/programs/longevity): NAD+, Sermorelin, Methylene Blue, and anti-aging peptides.
+- [Pain & Recovery](/programs/pain-recovery): Recovery peptides and pain management.
+- [Brain & Cognitive](/programs/brain-cognitive): Nootropics and cognitive performance.
+- [Gut Health](/programs/gut-health): Microbiome and digestive support.
+- [Mental Health](/programs/mental-health): Therapy and psychiatric care.
+- [Sleep Health](/programs/sleep-health): CBT-I and sleep optimization.
+- [Peptides](/peptides): Peptide catalog for weight loss, recovery, hormones, and brain health.
+
+## Health quizzes
+
+- [Weight Loss Quiz](/health-quiz/weight-loss): Find the right GLP-1 or weight-loss path.
+- [Menopause Quiz](/health-quiz/menopause): Match HRT options to your symptoms.
+- [Sexual Health Quiz](/health-quiz/sexual-health): Tailored sexual wellness recommendations.
+- [Skin & Hair Quiz](/health-quiz/skin-hair): Personalized skin and hair regimens.
+- [Longevity Quiz](/health-quiz/longevity): Build a longevity stack.
+- [Brain Quiz](/health-quiz/brain-cognitive): Cognitive support recommendations.
+- [Sleep Quiz](/health-quiz/sleep-health): Sleep program matching.
+
+## Trust & safety
+
+- [GLP-1 Safety Info](/safety-info/glp1): Comprehensive clinical safety data for GLP-1 medications.
+- [Insurance Access](/insurance-access): Insurance coverage options for telehealth care.
+- [Privacy Policy](/privacy-policy): How we handle patient data.
+- [Terms of Service](/terms-of-service): Platform terms.
+
+## For partners
+
+- [Apply as Influencer](/apply-influencer): Partner program for creators with 20k+ followers.
+- [Earn as Affiliate](/earn-affiliate): Affiliate marketing program.
+- [List a Product](/list-product): Brand seller onboarding (US-only, GMP/NSF required).
+- [Apply as Consultant](/apply-consultant): Clinician and expert applications.
+
+## Optional
+
+- [All Products](/products): Full product catalog.
+- [Featured Products](/products/featured): Top-picked supplements and tools.
+- [Top Rated](/products/top-rated): Highest-reviewed products.
+- [Goals](/goals): Browse by health goal.
